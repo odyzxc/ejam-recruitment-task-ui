@@ -2,11 +2,11 @@ import axios, { Method } from "axios";
 import { DeploymentFormValues } from "features/deployments/DeploymentForm";
 
 export interface Deployment {
-  _id?: string;
+  _id: string;
   url: string;
   templateName: string;
   version: string;
-  deployedAt?: Date;
+  deployedAt: string;
 }
 
 const deploymentApiRoot =

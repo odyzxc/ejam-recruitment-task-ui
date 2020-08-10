@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Deployment, getDeployments } from "api/deployments";
 import { AppDispatch } from "store/store";
 import { saveDeploymentSuccess } from "./deploymentSavingSlice";
+import { deleteDeploymentSuccess } from "./deploymentDeletingSlice";
 
 interface DeploymentsState {
   deployments: Array<Deployment>;
@@ -39,6 +40,14 @@ const deploymentsSlice = createSlice({
       { payload }: PayloadAction<Deployment>
     ) => {
       state.deployments.push(payload);
+    },
+    [deleteDeploymentSuccess.toString()]: (
+      state,
+      { payload }: PayloadAction<string>
+    ) => {
+      state.deployments = state.deployments.filter(
+        (deployment) => deployment._id !== payload
+      );
     },
   },
 });

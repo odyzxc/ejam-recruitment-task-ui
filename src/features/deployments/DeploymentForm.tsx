@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { object, string, MixedSchema } from "yup";
-import { Deployment } from "../../api/deployments";
+import { Deployment } from "api/deployments";
 
 export type DeploymentFormValues = Partial<Deployment>;
 
@@ -72,6 +72,7 @@ const DeploymentForm: React.FunctionComponent<DFProps> = ({ onSubmit }) => {
           isSubmitting,
         }) => (
           <form onSubmit={handleSubmit}>
+            <label htmlFor="url">URL</label>
             <input
               type="text"
               name="url"
@@ -80,6 +81,7 @@ const DeploymentForm: React.FunctionComponent<DFProps> = ({ onSubmit }) => {
               value={values.url}
             />
             {errors.url && touched.url && errors.url}
+            <label htmlFor="templateName">Template name</label>
             <select
               name="templateName"
               onChange={handleChange}
@@ -96,6 +98,7 @@ const DeploymentForm: React.FunctionComponent<DFProps> = ({ onSubmit }) => {
               ))}
             </select>
             {errors.templateName && touched.templateName && errors.templateName}
+            <label htmlFor="version">Version</label>
             <select
               name="version"
               onChange={handleChange}

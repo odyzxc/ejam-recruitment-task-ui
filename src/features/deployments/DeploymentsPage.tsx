@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Grid from "@material-ui/core/Grid";
 
 import { fetchDeployments } from "features/deployments/deploymentSlice";
 import { getDeployments } from "features/deployments/selectors";
 import DeploymentForm from "./DeploymentForm";
 import { createDeployment } from "./deploymentSavingSlice";
+import { removeDeployment } from "./deploymentDeletingSlice";
+import DeploymentsList from "./DeploymentsList";
 
 export const DeploymentsPage = () => {
   const dispatch = useDispatch();
@@ -13,11 +16,18 @@ export const DeploymentsPage = () => {
     dispatch(fetchDeployments());
   }, [dispatch]);
   return (
-    <>
-      <DeploymentForm
-        onSubmit={(values) => dispatch(createDeployment(values))}
-      />
-      <pre>deployments: {JSON.stringify(deployments)}</pre>
-    </>
+    <Grid container spacing={3}>
+      <Grid item md={12}>
+        <DeploymentForm
+          onSubmit={(values) => dispatch(createDeployment(values))}
+        />
+      </Grid>
+      <Grid item md={12}>
+        <DeploymentsList
+          deployments={deployments}
+          onDelete={(deploymentId) => dispatch(removeDeployment(deploymentId))}
+        />
+      </Grid>
+    </Grid>
   );
 };

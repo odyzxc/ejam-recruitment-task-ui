@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import deployments from "features/deployments/deploymentSlice";
 import deploymentSave from "features/deployments/deploymentSavingSlice";
+import deploymentDelete from "features/deployments/deploymentDeletingSlice";
 
 const store = configureStore({
   reducer: {
     deployments: combineReducers({
       data: deployments,
       save: deploymentSave,
+      delete: deploymentDelete,
     }),
   },
 });
