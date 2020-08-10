@@ -1,11 +1,11 @@
 import React from "react";
 
-import { DeploymentsListPage } from "features/deployments/DeploymentsListPage";
+import { DeploymentsPage } from "features/deployments/DeploymentsPage";
 
 function App() {
   return (
     <>
-      <DeploymentsListPage />
+      <DeploymentsPage />
     </>
   );
 }

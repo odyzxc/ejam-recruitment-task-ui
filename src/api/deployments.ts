@@ -1,30 +1,44 @@
-import axios from "axios";
+import axios, { Method } from "axios";
+import { DeploymentFormValues } from "features/deployments/DeploymentForm";
 
 export interface Deployment {
   _id?: string;
   url: string;
   templateName: string;
   version: string;
-  deployedAt: Date;
+  deployedAt?: Date;
 }
 
 const deploymentApiRoot =
   "https://ejam-recruitment-task-api.herokuapp.com/api/deployments";
 
-export const getDeployments = async () => {
+const createRequest = async <T>(
+  url: string,
+  method: Method,
+  data?: any
+): Promise<T> => {
+  const config = {
+    method,
+    url,
+    data,
+  };
   try {
-    const result = await axios.get<Deployment[]>(deploymentApiRoot);
+    const result = await axios.request<T>(config);
     return result.data;
   } catch (err) {
     throw err;
   }
 };
 
-export const postDeployment = async (deployment: Deployment) => {
-  return await axios.post<Deployment[]>(deploymentApiRoot, deployment);
+export const getDeployments = async () => {
+  return await createRequest<Deployment[]>(deploymentApiRoot, "get");
+};
+
+export const postDeployment = async (deployment: DeploymentFormValues) => {
+  return await createRequest<Deployment>(deploymentApiRoot, "post", deployment);
 };
 
 export const deleteDeployment = async (deploymentId: string) => {
   const url = `${deploymentApiRoot}/${deploymentId}`;
-  return await axios.delete<Deployment[]>(url);
+  return await createRequest<void>(url, "delete");
 };

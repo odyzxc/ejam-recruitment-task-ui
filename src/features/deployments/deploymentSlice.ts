@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Deployment, getDeployments } from "api/deployments";
 import { AppDispatch } from "store/store";
+import { saveDeploymentSuccess } from "./deploymentSavingSlice";
 
 interface DeploymentsState {
   deployments: Array<Deployment>;
@@ -11,14 +12,14 @@ interface DeploymentsState {
 const initialDeploymentsState: DeploymentsState = {
   deployments: [],
   isLoading: false,
-  error: null
+  error: null,
 };
 
 const deploymentsSlice = createSlice({
   name: "deployments",
   initialState: initialDeploymentsState,
   reducers: {
-    getDeploymentsRequest: state => {
+    getDeploymentsRequest: (state) => {
       state.isLoading = true;
     },
     getDeploymentsSuccess: (
@@ -30,14 +31,22 @@ const deploymentsSlice = createSlice({
     },
     getDeploymentsFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
-    }
-  }
+    },
+  },
+  extraReducers: {
+    [saveDeploymentSuccess.toString()]: (
+      state,
+      { payload }: PayloadAction<Deployment>
+    ) => {
+      state.deployments.push(payload);
+    },
+  },
 });
 
 const {
   getDeploymentsRequest,
   getDeploymentsSuccess,
-  getDeploymentsFailure
+  getDeploymentsFailure,
 } = deploymentsSlice.actions;
 
 export const fetchDeployments = () => async (dispatch: AppDispatch) => {
